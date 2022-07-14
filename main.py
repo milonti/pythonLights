@@ -2,6 +2,7 @@ from logging import debug
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap import *
+from ttkbootstrap.colorutils import *
 from ttkbootstrap.constants import *
 from hue_api import HueApi
 
@@ -114,17 +115,36 @@ toggleButton = Button(topFrame, width=25, text='Toggle Light', command=toggleSel
 
 # Component to select a new color using HSL
 # It'll be a whole frame of it's own
-colorFrame = Frame(topFrame)
+colorFrame = Frame(topFrame, width=300)
 cfLabel = Label(colorFrame, text='Change Color Options')
 
-hueWidth = 250
-hueGradient = Canvas(colorFrame,width=hueWidth, height=25, borderwidth=2, relief='solid')
-hueScale = Scale(colorFrame,orient=HORIZONTAL, length=hueWidth,from_=0, to=65535)
+hueScaleNum = tk.IntVar()
+hueWidth = 256
+hueGradient = Canvas(colorFrame,width=hueWidth, height=25, borderwidth=1, relief='solid')
+hueScale = Scale(colorFrame,orient=HORIZONTAL, length=hueWidth,from_=0, to=256, variable=hueScaleNum)
 
 cfLabel.pack(side='top')
 hueGradient.pack(side='top', padx=3)
 hueScale.pack(side='top', padx=3)
 
+# Hue_Api accepts [0, 2^16)
+# We're gonna take in [0, 2^8)
+# Might not be worth iterating through ALL of those 
+# This can play around with color selection
+
+# Gotta make a gradient to visibly select hue
+# Need to make 255 steps out of 360 degrees for gradient
+# Massaged the range to fit with an outline
+for x in range(2,256):
+    hueNum = int((x*360)/256)
+    # The builtin colorutil function just does not like me
+    # Doing the internal conversion by hand
+    # print(ImageColor.getrgb(str('hsl('+str(hueNum)+',100%,50%)')))
+    hr,hg,hb = ImageColor.getrgb(str('hsl('+str(hueNum)+',100%,50%)'))
+    fillString = '#'+(f'{hr:02x}{hg:02x}{hb:02x}')
+    hueGradient.create_rectangle(x,0,x+1,25, fill=fillString, outline=fillString)
+
+#Separators
 sepToggleToColorFrame = Separator(topFrame,orient='horizontal')
 
 # Grid layout
@@ -146,6 +166,7 @@ toggleButton.grid(column=0,columnspan=6, row=3, sticky=(N,S,E,W), padx=10)
 sepToggleToColorFrame.grid(column=0,row=4,columnspan=6,padx=5, pady=10, sticky=(N,S,E,W))
 colorFrame.grid(column=0, row=5, columnspan=6, sticky=(N,S,E,W))
 
+#TODO replace with loop
 topFrame.grid_rowconfigure(0,weight=1)
 topFrame.grid_rowconfigure(1,weight=1)
 topFrame.grid_rowconfigure(2,weight=1)
