@@ -144,6 +144,15 @@ for x in range(2,256):
     fillString = '#'+(f'{hr:02x}{hg:02x}{hb:02x}')
     hueGradient.create_rectangle(x,0,x+1,25, fill=fillString, outline=fillString)
 
+def getApiHueValue():
+    # Old space is 0 - 256 (2^8)
+    # New space is 0 - 2^16 so we just square it
+    valueForApi = int(hueScaleNum*hueScaleNum)
+    return valueForApi
+
+def sendNewColorToSelectedLight():
+    selectedLight.set_color()
+
 #Separators
 sepToggleToColorFrame = Separator(topFrame,orient='horizontal')
 
