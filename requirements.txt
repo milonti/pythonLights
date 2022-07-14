@@ -1,7 +1,6 @@
 aiohttp==3.8.1
 aiokafka==0.7.2
 aiosignal==1.2.0
-apturl==0.5.2
 async-timeout==4.0.2
 attrs==21.4.0
 bcrypt==3.2.0
@@ -63,7 +62,6 @@ notify2==0.3
 numpy==1.21.6
 oauthlib==3.2.0
 olefile==0.46
--e git+https://github.com/encounter-ai/ci-components.git@02d6222f5a8f054900fbc7bfc9751b5214d471f2#egg=olivepy&subdirectory=ci-utils/python
 packaging==21.3
 paramiko==2.9.3
 pexpect==4.8.0
