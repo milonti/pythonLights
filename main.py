@@ -54,11 +54,11 @@ def selectLightByName(name):
     return False
 
 selectedName = tk.StringVar()
-lightSelectSpinbox = Combobox(topFrame, width=25,state='readonly', textvariable=selectedName)
+lightSelectCombobox = Combobox(topFrame, width=25,state='readonly', textvariable=selectedName)
 vals = list(map(lambda x: x.name, reachables))
-lightSelectSpinbox['values'] = vals
-lightSelectSpinbox.current(0)
-lightSelectSpinbox.bind('<<ComboboxSelected>>', onLightComboChange)
+lightSelectCombobox['values'] = vals
+lightSelectCombobox.current(0)
+lightSelectCombobox.bind('<<ComboboxSelected>>', onLightComboChange)
 
 #Current stats labels
 hueString = tk.StringVar()
@@ -107,7 +107,7 @@ def toggleSelectedLight():
 toggleButton = Button(topFrame, width=25, text='Toggle Light', command=toggleSelectedLight)
 
 # Grid layout
-lightSelectSpinbox.grid(column=0,row=0,columnspan=6,rowspan=2)
+lightSelectCombobox.grid(column=0,row=0,columnspan=6,rowspan=2)
 labelHue.grid(column=0,row=2,columnspan=2, rowspan=1)
 labelSat.grid(column=2,row=2,columnspan=2, rowspan=1)
 labelBri.grid(column=4,row=2,columnspan=2, rowspan=1)
